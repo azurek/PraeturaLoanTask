@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LoanLogic.Models
+﻿namespace LoanLogic.Models
 {
     public class LoanApplication
     {
@@ -17,5 +11,7 @@ namespace LoanLogic.Models
         public string Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime ReviewedAt { get; set; }
+
+        public string IdempotentKey { get; set; }   
     }
 }

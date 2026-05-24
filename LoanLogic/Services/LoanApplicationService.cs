@@ -1,20 +1,29 @@
-﻿using LoanLogic;
-using LoanLogic.Interfaces;
+﻿using LoanLogic.Interfaces;
 using LoanLogic.Mappers;
 using LoanLogic.Models;
-using LoanLogic.Interfaces;
 using System.Net.Mail;
-using System.Runtime.InteropServices;
 
 namespace LoanLogic.Services
 {
     public class LoanApplicationService(ILoanApplicationRepository loanApplicationRepository) : ILoanApplicationService
     {
-        public ResultWithMessage<LoanApplicationResult> SaveNewApplication(LoanApplicationRequest request)
+        public ResultWithMessage<LoanApplicationResult> SaveNewApplication(LoanApplicationRequest request, string idempotentKey)
         {            
             var applicationSaveResult = new ResultWithMessage<LoanApplicationResult>();
+
+            if (!string.IsNullOrWhiteSpace(idempotentKey))
+            {
+                var loanApplication = loanApplicationRepository.GetByIdempotentKey(idempotentKey);
+                if (loanApplication != null)
+                {
+                    applicationSaveResult.Result = LoanApplicationResponseMapper.MapToLoanApplicationResult(loanApplication);
+                    return applicationSaveResult;
+                }
+            }
             
+
             var newLoanAppliaction = LoanApplicationMapper.MapToLoanApplication(request);
+            newLoanAppliaction.IdempotentKey = idempotentKey;
             var addResult = loanApplicationRepository.Add(newLoanAppliaction);
 
             if(addResult.IsValid)

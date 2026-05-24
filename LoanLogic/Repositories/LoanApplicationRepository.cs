@@ -51,8 +51,6 @@ namespace LoanLogic.Repositories
             }
 
             return all.ToList();
-
-
         }
 
         public UnitResultWithMessage Update(LoanApplication loanApplication)
@@ -68,7 +66,11 @@ namespace LoanLogic.Repositories
                 updateResult.Messages.Add(string.Format(ErrorMessages.GetMessage(ErrorCode.E013), ex.Message));
             }
             return updateResult;
+        }
 
+        public LoanApplication? GetByIdempotentKey(string idempotentKey)
+        {            
+            return loanDbContext.LoanApplications.FirstOrDefault(la => la.IdempotentKey == idempotentKey);                        
         }
     }
 }

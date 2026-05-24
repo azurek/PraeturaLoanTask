@@ -8,14 +8,17 @@ namespace PraeturaLoanTask.Controllers
 {
     [ApiController]
     [Route("api/loan-applications")]
-    public class LoanController(ILoanApplicationService loanValidationService, ILogger<LoanController> logger) : ControllerBase
+    public class LoanApplicationsController(ILoanApplicationService loanValidationService, ILogger<LoanApplicationsController> logger) : ControllerBase
     {
 
 
         [HttpPost]        
         public ActionResult<LoanApplicationResult> Post([FromBody] LoanApplicationRequest loanApplicationRequest)
         {
+            var idempotentKey = Request.Headers["Idempotency-Key"].FirstOrDefault();
             var validationResult = loanValidationService.Validate(loanApplicationRequest);
+
+           
 
             if (!validationResult.IsValid)
             {
@@ -23,7 +26,7 @@ namespace PraeturaLoanTask.Controllers
                 return BadRequest(new { Errors = validationResult.Messages });
             }
 
-            var saveApplicationResult = loanValidationService.SaveNewApplication(loanApplicationRequest);
+            var saveApplicationResult = loanValidationService.SaveNewApplication(loanApplicationRequest, idempotentKey);
             if (!saveApplicationResult.IsValid)
             {
                 logger.LogError("Failed to save loan application: {Messages}", string.Join(", ", saveApplicationResult.Messages));

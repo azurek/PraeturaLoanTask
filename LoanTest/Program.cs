@@ -21,7 +21,7 @@ builder.Services.AddTransient<ILoanApplicationService, LoanApplicationService>()
 builder.Services.AddTransient<ILoanReviewService, LoanReviewService>();
 
 //builder.Services.AddDbContext<LoanDbContext>(opt=> opt.UseInMemoryDatabase("LoanDb"));   
-builder.Services.AddDbContext<LoanDbContext>(opt => opt.UseSqlite(@"Data Source=C:\temp\praetura\LoanDb.db"));
+builder.Services.AddDbContext<LoanDbContext>(opt => opt.UseSqlite(@"Data Source=LoanDb.db"));
 
 builder.Services.AddHostedService<LoanLogic.Services.LoanBackgroundService>();
 
