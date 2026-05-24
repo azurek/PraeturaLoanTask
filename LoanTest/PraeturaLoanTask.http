@@ -1,0 +1,7 @@
+@PraeturaLoanTask_HostAddress = http://localhost:5176
+
+POST {{PraeturaLoanTask_HostAddress}}/api/loan-applications/
+GET {{PraeturaLoanTask_HostAddress}}/api/decision-log-entries/
+Accept: application/json
+
+###
