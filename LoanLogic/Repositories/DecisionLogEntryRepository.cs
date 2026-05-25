@@ -21,7 +21,10 @@ namespace LoanLogic.Repositories
             return result;
         }
 
-        //only for testing purposes
+        /// <summary>
+        /// Get all decision log entries. For testing in postman
+        /// </summary>
+        /// <returns></returns>
         public List<DecisionLogEntry> GetAll()
         {
             return loanDbContext.DecisionLogEntries.ToList();

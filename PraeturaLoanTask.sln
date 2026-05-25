@@ -7,7 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PraeturaLoanTask", "LoanTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanLogic", "LoanLogic\LoanLogic.csproj", "{64FF6976-A022-4B36-9D6E-4BC4FCC7F4FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanLogicTests", "LoanLogicTests\LoanLogicTests.csproj", "{E88F8E65-2FA8-4494-85B8-F359EB04ABE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanApplicationProcessorTests", "LoanLogicTests\LoanApplicationProcessorTests.csproj", "{E88F8E65-2FA8-4494-85B8-F359EB04ABE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanApplicationProcessor", "LoanApplicationProcessor\LoanApplicationProcessor.csproj", "{A8D88CCE-D698-4CFD-9114-9B7821894088}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{E88F8E65-2FA8-4494-85B8-F359EB04ABE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E88F8E65-2FA8-4494-85B8-F359EB04ABE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E88F8E65-2FA8-4494-85B8-F359EB04ABE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8D88CCE-D698-4CFD-9114-9B7821894088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8D88CCE-D698-4CFD-9114-9B7821894088}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8D88CCE-D698-4CFD-9114-9B7821894088}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8D88CCE-D698-4CFD-9114-9B7821894088}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LoanLogic.Models
+﻿namespace LoanLogic.Models
 {
     public class ErrorCode
     {        
@@ -23,5 +16,6 @@ namespace LoanLogic.Models
         public const string E012 = "E012";
         public const string E013 = "E013";
         public const string E014 = "E014";
+        public const string E015 = "E015";
     }
 }

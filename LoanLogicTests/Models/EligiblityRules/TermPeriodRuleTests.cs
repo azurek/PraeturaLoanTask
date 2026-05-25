@@ -1,13 +1,8 @@
-﻿using LoanLogic.Models;
-using LoanLogic.Models.EligiblityRules;
+﻿using LoanApplicationProcessor.Models.EligiblityRules;
+using LoanLogic.Models;
 using LoanLogic.Settings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LoanLogicTests.Models.EligiblityRules
+namespace LoanApplicationProcessorTests.Models.EligiblityRules
 {
     [TestClass]
     public class TermPeriodRuleTests
@@ -42,6 +37,9 @@ namespace LoanLogicTests.Models.EligiblityRules
             // Arrange
             var loanApplication = new LoanApplication
             {
+                Name = "",
+                Email = "",
+                Status = "",
                 MonthlyIncome = (decimal)monthlyIncome,
                 RequestedAmount = (decimal)loanAmount,
                 TermMonths = term
@@ -69,6 +67,9 @@ namespace LoanLogicTests.Models.EligiblityRules
             // Arrange
             var loanApplication = new LoanApplication
             {
+                Name = "",
+                Email = "",
+                Status = "",
                 MonthlyIncome = (decimal)monthlyIncome,
                 RequestedAmount = (decimal)loanAmount,
                 TermMonths = term

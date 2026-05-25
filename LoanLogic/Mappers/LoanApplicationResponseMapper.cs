@@ -1,16 +1,10 @@
 ﻿using LoanLogic.Enums;
 using LoanLogic.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace LoanLogic.Mappers
 {
     public static class LoanApplicationResponseMapper
     {
-        public static LoanApplicationResult MapToLoanApplicationResult(this Models.LoanApplication loanApplication)
+        public static LoanApplicationResult MapToLoanApplicationResult(LoanApplication loanApplication)
         {
             return new LoanApplicationResult
             {

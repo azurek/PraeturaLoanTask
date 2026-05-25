@@ -2,7 +2,7 @@
 {
     public static class ErrorMessages
     {
-        private static readonly Dictionary<string, string> _errorMessages = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> _errorMessages = new()
         {
             { ErrorCode.E001, "Name is required" },
             { ErrorCode.E002, "Email is required" },
@@ -17,7 +17,9 @@
             { ErrorCode.E011, "Failed to save locan appliaction due to: '{0}'" },
             { ErrorCode.E012, "Unable to find laon application with id '{0}'" },
             { ErrorCode.E013, "Failed to save decision log entries due to: '{0}'" },
-            { ErrorCode.E014, "Failed to update loan application due to: '{0}'" }
+            { ErrorCode.E014, "Failed to update loan application due to: '{0}'" },
+            { ErrorCode.E015, "Request cancelled"   }
+
         };
         
         public static string GetMessage(string errorCode)

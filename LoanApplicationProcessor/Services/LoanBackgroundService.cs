@@ -1,51 +1,45 @@
-﻿using LoanLogic.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
-namespace LoanLogic.Services
+﻿using LoanLogic;
+using LoanLogic.Interfaces;
+namespace LoanApplicationProcessor.Services
 {
-    public class LoanBackgroundService: BackgroundService
+    public class LoanBackgroundService(IServiceScopeFactory scopeFactory, ILogger<LoanBackgroundService> logger) : BackgroundService
     {
-        private readonly ILogger<LoanBackgroundService> _logger;
-        private readonly TimeSpan _interval;
-        private readonly IServiceScopeFactory _scopeFactory;
+        private readonly ILogger<LoanBackgroundService> _logger = logger;
+        private readonly TimeSpan _interval = TimeSpan.FromSeconds(25);
+        private readonly IServiceScopeFactory _scopeFactory = scopeFactory;
 
-        public LoanBackgroundService(IServiceScopeFactory scopeFactory, ILogger<LoanBackgroundService> logger)
-           {
-            _logger = logger;
-           _interval = TimeSpan.FromSeconds(60);
-            _scopeFactory = scopeFactory;
-        }
-
+        /// <summary>
+        /// Processes pending loan application by reviewing them and updating their status accordingly. 
+        /// Each application is processed within a transaction to ensure data integrity between LoanApplication and DecisionLogEntry.         
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         private async Task ProcessLoanApplications(CancellationToken cancellationToken)
         {
-            using var scope = _scopeFactory.CreateScope();
+           using var scope = _scopeFactory.CreateScope();
             var loanDbContext = scope.ServiceProvider.GetRequiredService<LoanDbContext>();
             var loanApplicationRepository = scope.ServiceProvider.GetRequiredService<ILoanApplicationRepository>();
             var loanReviewService = scope.ServiceProvider.GetRequiredService<ILoanReviewService>();
 
-            var pendingApplications = loanApplicationRepository.GetByStatus(Enums.LoanApplicationStatus.Pending);
+            var pendingApplications = loanApplicationRepository.GetByStatus(LoanLogic.Enums.LoanApplicationStatus.Pending);
 
             _logger.LogInformation("Found {Count} pending loan applications to process.", pendingApplications.Count);
 
-            foreach (var app in pendingApplications)
+            foreach (var pendingApplication in pendingApplications)
             {
 
                 await using var transaction = await loanDbContext.Database.BeginTransactionAsync(cancellationToken);
                 try
                 {                   
-                    loanReviewService.ReviewLoanApplication(app);
+                    loanReviewService.ReviewLoanApplication(pendingApplication);
                     await transaction.CommitAsync(cancellationToken);
                 }
                 catch (Exception ex)
                 {
                     
-                    _logger.LogError(ex, "Error processing loan application with ID {ApplicationId}", app.Id);
+                    _logger.LogError(ex, "Error processing loan application with ID {ApplicationId}", pendingApplication.Id);
                     await transaction.RollbackAsync(cancellationToken);
-                }
-
-                
+                }                
             }
         }
 

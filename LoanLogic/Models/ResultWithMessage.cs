@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LoanLogic.Models
+﻿namespace LoanLogic.Models
 {
+    /// <summary>
+    /// Part or railway approach where result of a method is coupled with any error messages.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class ResultWithMessage<T>: UnitResultWithMessage
     {
         public T Result { get; set; }        

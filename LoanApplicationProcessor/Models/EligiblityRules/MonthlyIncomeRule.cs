@@ -1,15 +1,16 @@
 ﻿using LoanLogic.Enums;
+using LoanLogic.Models;
 using LoanLogic.Settings;
 
-namespace LoanLogic.Models.EligiblityRules
+namespace LoanApplicationProcessor.Models.EligiblityRules
 {
-    public class MaximumLoanAmountRule : EligibilityRuleBase
+    public class MonthlyIncomeRule : EligibilityRuleBase
     {
-        public override EligibilityRuleType RuleType => EligibilityRuleType.MaximumLoanAmount;
+        public override EligibilityRuleType RuleType => EligibilityRuleType.MinimumMonthlyIncome;
 
         public override DecisionLogEntry Evaluate(LoanApplication loanApplication, EligibilitySettings eligibilitySettings)
         {
-            var decision = (loanApplication.RequestedAmount / loanApplication.MonthlyIncome) > eligibilitySettings.MaximumRequestedAmountToMonthIncomeRatio
+            var decision = loanApplication.MonthlyIncome < eligibilitySettings.MinimumMonthlyIncome
                 ? LoanApplicationStatus.Rejected
                 : LoanApplicationStatus.Approved;
 
@@ -20,8 +21,9 @@ namespace LoanLogic.Models.EligiblityRules
                 RuleName = RuleType.ToString(),
                 Passed = decision == LoanApplicationStatus.Approved,
                 Message = decision == LoanApplicationStatus.Approved
-                    ? $"Requested amount {loanApplication.RequestedAmount} is within the allowed ratio of monthly income."
-                    : $"Requested amount {loanApplication.RequestedAmount} exceeds {eligibilitySettings.MaximumRequestedAmountToMonthIncomeRatio} of applicant's monthly income.",
+                        ? $"Monthly income of {loanApplication.MonthlyIncome} meets the minimum requirement."
+                        : $"Monthly income of {loanApplication.MonthlyIncome} is below the minimum requirement of {eligibilitySettings.MinimumMonthlyIncome}.",
+                EvaluatedAt = DateTime.UtcNow
             };
         }
     }

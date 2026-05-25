@@ -1,9 +1,10 @@
-﻿using LoanLogic.Enums;
+﻿using LoanApplicationProcessor.Models.EligiblityRules;
+using LoanLogic.Enums;
 using LoanLogic.Interfaces;
 using LoanLogic.Models;
-using LoanLogic.Models.EligiblityRules;
 using LoanLogic.Settings;
-namespace LoanLogic.Services
+
+namespace LoanApplicationProcessor.Services
 {
     public class LoanReviewService(EligibilitySettings eligibilitySettings
         , ILoanApplicationRepository loanApplicationRepository

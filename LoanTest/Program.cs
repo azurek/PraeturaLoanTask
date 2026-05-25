@@ -2,12 +2,9 @@ using LoanLogic;
 using LoanLogic.Interfaces;
 using LoanLogic.Repositories;
 using LoanLogic.Services;
-using PraeturaLoanTask.BuilderDependencies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -18,13 +15,6 @@ builder.Services.AddTransient<ILoanApplicationRepository, LoanApplicationReposit
 builder.Services.AddTransient<IDecisionLogEntryRepository, DecisionLogEntryRepository>();
 
 builder.Services.AddTransient<ILoanApplicationService, LoanApplicationService>();
-builder.Services.AddTransient<ILoanReviewService, LoanReviewService>();
-
-//builder.Services.AddDbContext<LoanDbContext>(opt=> opt.UseInMemoryDatabase("LoanDb"));   
-builder.Services.AddDbContext<LoanDbContext>(opt => opt.UseSqlite(@"Data Source=LoanDb.db"));
-
-builder.Services.AddHostedService<LoanLogic.Services.LoanBackgroundService>();
-
 
 
 var configBuilder = new ConfigurationBuilder()
@@ -34,7 +24,8 @@ var configBuilder = new ConfigurationBuilder()
 
 var configuration = configBuilder.Build();
 
-builder.Services.AddEligiblitySettigns(configuration);
+builder.Services.AddDbContext<LoanDbContext>(opt => opt.UseSqlite(configuration.GetConnectionString("LoanDb")));
+
 
 
 builder.Services.AddLogging(config =>

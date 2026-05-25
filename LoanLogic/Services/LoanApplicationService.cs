@@ -7,7 +7,14 @@ namespace LoanLogic.Services
 {
     public class LoanApplicationService(ILoanApplicationRepository loanApplicationRepository) : ILoanApplicationService
     {
-        public ResultWithMessage<LoanApplicationResult> SaveNewApplication(LoanApplicationRequest request, string idempotentKey)
+        /// <summary>
+        /// Save new loan application or return existing one if idempotent key matches any records
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="idempotentKey"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<ResultWithMessage<LoanApplicationResult>> SaveNewApplication(LoanApplicationRequest request, string idempotentKey, CancellationToken cancellationToken)
         {            
             var applicationSaveResult = new ResultWithMessage<LoanApplicationResult>();
 
@@ -24,7 +31,14 @@ namespace LoanLogic.Services
 
             var newLoanAppliaction = LoanApplicationMapper.MapToLoanApplication(request);
             newLoanAppliaction.IdempotentKey = idempotentKey;
-            var addResult = loanApplicationRepository.Add(newLoanAppliaction);
+
+            if(cancellationToken.IsCancellationRequested)
+            {
+                applicationSaveResult.Messages.Add(ErrorMessages.GetMessage(ErrorCode.E015));
+                return applicationSaveResult;
+            }
+
+            var addResult = await loanApplicationRepository.Add(newLoanAppliaction);
 
             if(addResult.IsValid)
             {
@@ -53,14 +67,21 @@ namespace LoanLogic.Services
             return getResult;
         }
 
-        public ResultWithMessage<bool> Validate(LoanApplicationRequest request)
+        /// <summary>
+        /// Basic validation of loan application request. No business specific rules applied, yet.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public ResultWithMessage<bool> Validate(LoanApplicationRequest request, CancellationToken cancellationToken)
         {
-            var validationResult = new ResultWithMessage<bool>();
-            validationResult.Result = true;
+            var validationResult = new ResultWithMessage<bool>
+            {
+                Result = true
+            };
 
             var nameValidationResult = ValidateName(request.Name);
             validationResult.Messages.AddRange(nameValidationResult.Messages);
-
 
             var emailValidationResult = ValidateEmail(request.Email);
             validationResult.Messages.AddRange(emailValidationResult.Messages);
@@ -74,13 +95,20 @@ namespace LoanLogic.Services
             var termMonthsValidationResult = ValidateTermMonths(request.TermMonths);
             validationResult.Messages.AddRange(termMonthsValidationResult.Messages);
 
+            if(cancellationToken.IsCancellationRequested)
+            {
+                validationResult.Messages.Add(ErrorMessages.GetMessage(ErrorCode.E015));
+            }
+
             return validationResult;
         }
 
-        internal ResultWithMessage<bool> ValidateName(string name)
+        private static ResultWithMessage<bool> ValidateName(string? name)
         {
-            var nameValidationResult = new ResultWithMessage<bool>();
-            nameValidationResult.Result = true;
+            var nameValidationResult = new ResultWithMessage<bool>
+            {
+                Result = true
+            };
             if (string.IsNullOrEmpty(name))
             {
                 nameValidationResult.Messages.Add(ErrorMessages.GetMessage(ErrorCode.E001));
@@ -96,10 +124,12 @@ namespace LoanLogic.Services
             return nameValidationResult;
         }
 
-        internal ResultWithMessage<bool> ValidateEmail(string email)
+        private static ResultWithMessage<bool> ValidateEmail(string? email)
         {
-            var emailValidationResult = new ResultWithMessage<bool>();
-            emailValidationResult.Result = true;
+            var emailValidationResult = new ResultWithMessage<bool>
+            {
+                Result = true
+            };
             if (string.IsNullOrEmpty(email))
             {
                 emailValidationResult.Messages.Add(ErrorMessages.GetMessage(ErrorCode.E002));
@@ -111,10 +141,13 @@ namespace LoanLogic.Services
             return emailValidationResult;
         }
 
-        internal ResultWithMessage<bool> ValidateMonthlyIncome(decimal? monthlyIncome)
+        private static ResultWithMessage<bool> ValidateMonthlyIncome(decimal? monthlyIncome)
         {
-            var monthlyIncomeValidationResult = new ResultWithMessage<bool>();
-            monthlyIncomeValidationResult.Result = true;
+            var monthlyIncomeValidationResult = new ResultWithMessage<bool>
+            {
+                Result = true
+            };
+
             if (monthlyIncome == null)
             {
                 monthlyIncomeValidationResult.Messages.Add(ErrorMessages.GetMessage(ErrorCode.E005));
@@ -127,10 +160,13 @@ namespace LoanLogic.Services
             return monthlyIncomeValidationResult;
         }
 
-        internal ResultWithMessage<bool> ValidateRequestedAmount(decimal? requestedAmount)
+        private static ResultWithMessage<bool> ValidateRequestedAmount(decimal? requestedAmount)
         {
-            var requestedAmountValidationResult = new ResultWithMessage<bool>();
-            requestedAmountValidationResult.Result = true;
+            var requestedAmountValidationResult = new ResultWithMessage<bool>
+            {
+                Result = true
+            };
+
             if (requestedAmount == null)
             {
                 requestedAmountValidationResult.Messages.Add(ErrorMessages.GetMessage(ErrorCode.E007));
@@ -143,10 +179,13 @@ namespace LoanLogic.Services
             return requestedAmountValidationResult;
         }
 
-        internal ResultWithMessage<bool> ValidateTermMonths(decimal? termMonths)
+        private static ResultWithMessage<bool> ValidateTermMonths(decimal? termMonths)
         {
-            var termMonthsValidationResult = new ResultWithMessage<bool>();
-            termMonthsValidationResult.Result = true;
+            var termMonthsValidationResult = new ResultWithMessage<bool>
+            {
+                Result = true
+            };
+
             if (termMonths  == null)
             {
                 termMonthsValidationResult.Messages.Add(ErrorMessages.GetMessage(ErrorCode.E009));

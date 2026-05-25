@@ -1,7 +1,8 @@
 ﻿using LoanLogic.Enums;
+using LoanLogic.Models;
 using LoanLogic.Settings;
 
-namespace LoanLogic.Models.EligiblityRules
+namespace LoanApplicationProcessor.Models.EligiblityRules
 {
     public class TermPeriodRule : EligibilityRuleBase
     {

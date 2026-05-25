@@ -1,19 +1,18 @@
 ﻿using LoanLogic.Enums;
 using LoanLogic.Interfaces;
-using LoanLogic.Mappers;
 using LoanLogic.Models;
 namespace LoanLogic.Repositories
 {
     public class LoanApplicationRepository(LoanDbContext loanDbContext) : ILoanApplicationRepository
     {
-        public ResultWithMessage<LoanApplication> Add(LoanApplication loanAppliaction)
+        public async Task<ResultWithMessage<LoanApplication>> Add(LoanApplication loanAppliaction)
         {
             var applicationSaveResult = new ResultWithMessage<LoanApplication>();
             try
             {
                 loanAppliaction.CreatedAt = DateTime.UtcNow;
                 loanDbContext.LoanApplications.Add(loanAppliaction);
-                loanDbContext.SaveChanges();
+                await loanDbContext.SaveChangesAsync();
 
                 applicationSaveResult.Result = loanAppliaction;
             }

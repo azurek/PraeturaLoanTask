@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LoanLogic.Models;
 using LoanLogic.Interfaces;
-using LoanLogic;
-using System.Threading.Tasks;
 
 namespace PraeturaLoanTask.Controllers
 {
@@ -13,10 +11,10 @@ namespace PraeturaLoanTask.Controllers
 
 
         [HttpPost]        
-        public ActionResult<LoanApplicationResult> Post([FromBody] LoanApplicationRequest loanApplicationRequest)
+        public async Task<ActionResult<LoanApplicationResult>> Post([FromBody] LoanApplicationRequest loanApplicationRequest, CancellationToken cancellationToken)
         {
-            var idempotentKey = Request.Headers["Idempotency-Key"].FirstOrDefault();
-            var validationResult = loanValidationService.Validate(loanApplicationRequest);
+            var idempotentKey = Request.Headers["Idempotency-Key"].FirstOrDefault()?? "";
+            var validationResult = loanValidationService.Validate(loanApplicationRequest, cancellationToken);
 
            
 
@@ -26,7 +24,7 @@ namespace PraeturaLoanTask.Controllers
                 return BadRequest(new { Errors = validationResult.Messages });
             }
 
-            var saveApplicationResult = loanValidationService.SaveNewApplication(loanApplicationRequest, idempotentKey);
+            var saveApplicationResult = await loanValidationService.SaveNewApplication(loanApplicationRequest, idempotentKey, cancellationToken);
             if (!saveApplicationResult.IsValid)
             {
                 logger.LogError("Failed to save loan application: {Messages}", string.Join(", ", saveApplicationResult.Messages));

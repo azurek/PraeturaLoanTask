@@ -1,8 +1,8 @@
 ﻿using LoanLogic.Settings;
 
-namespace PraeturaLoanTask.BuilderDependencies
+namespace LoanApplicationProcessor.BuilderDependencies
 {
-    public static  class ConfigurationSettings
+    public static class ConfigurationSettings
     {
         public static EligibilitySettings AddEligiblitySettigns(this IServiceCollection services, IConfiguration configuration)
         {

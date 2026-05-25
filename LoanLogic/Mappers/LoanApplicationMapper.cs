@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LoanLogic.Mappers
+﻿namespace LoanLogic.Mappers
 {
     public static class LoanApplicationMapper
     {
@@ -13,11 +7,11 @@ namespace LoanLogic.Mappers
                 return new Models.LoanApplication
                 {
                     Id = Guid.NewGuid(),
-                    Name = request.Name,
-                    Email = request.Email,
-                    MonthlyIncome = request.MonthlyIncome.Value,
-                    RequestedAmount = request.RequestedAmount.Value,                    
-                    TermMonths = request.TermMonths.Value,
+                    Name = request.Name ?? "",
+                    Email = request.Email ?? "",
+                    MonthlyIncome = request.MonthlyIncome ?? 0,
+                    RequestedAmount = request.RequestedAmount ?? 0,                    
+                    TermMonths = request.TermMonths ?? 0,
                     Status = Enums.LoanApplicationStatus.Pending.ToString()
                 };
         }
