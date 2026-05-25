@@ -13,6 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LoanLogic\LoanLogic.csproj" />
-    <ProjectReference Include="..\LoanTest\PraeturaLoanTask.csproj" />
+    <ProjectReference Include="..\PraeturaLoanTask\PraeturaLoanTask.csproj" />
   </ItemGroup>
 </Project>

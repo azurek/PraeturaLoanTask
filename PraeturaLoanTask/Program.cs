@@ -1,4 +1,4 @@
-using LoanLogic;
+using LoanLogic.Database;
 using LoanLogic.Interfaces;
 using LoanLogic.Repositories;
 using LoanLogic.Services;
@@ -24,9 +24,7 @@ var configBuilder = new ConfigurationBuilder()
 
 var configuration = configBuilder.Build();
 
-builder.Services.AddDbContext<LoanDbContext>(opt => opt.UseSqlite(configuration.GetConnectionString("LoanDb")));
-
-
+DbDepencyInjector.AddDatabaseDependencies(builder.Services);
 
 builder.Services.AddLogging(config =>
 {

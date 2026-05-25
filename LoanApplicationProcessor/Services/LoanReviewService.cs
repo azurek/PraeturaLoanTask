@@ -1,4 +1,5 @@
-﻿using LoanApplicationProcessor.Models.EligiblityRules;
+﻿using LoanApplicationProcessor.Interfaces;
+using LoanApplicationProcessor.Models.EligiblityRules;
 using LoanLogic.Enums;
 using LoanLogic.Interfaces;
 using LoanLogic.Models;

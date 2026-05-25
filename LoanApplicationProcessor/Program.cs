@@ -1,9 +1,9 @@
 using LoanApplicationProcessor.BuilderDependencies;
+using LoanApplicationProcessor.Interfaces;
 using LoanApplicationProcessor.Services;
-using LoanLogic;
+using LoanLogic.Database;
 using LoanLogic.Interfaces;
 using LoanLogic.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddHostedService<LoanBackgroundService>();
@@ -19,7 +19,8 @@ var configuration = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
-builder.Services.AddDbContext<LoanDbContext>(opt => opt.UseSqlite(configuration.GetConnectionString("LoanDb")));
+
+DbDepencyInjector.AddDatabaseDependencies(builder.Services);
 
 builder.Services.AddEligiblitySettigns(configuration);
 

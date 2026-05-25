@@ -5,17 +5,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Models\EligiblityRules\**" />
-    <EmbeddedResource Remove="Models\EligiblityRules\**" />
-    <None Remove="Models\EligiblityRules\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Services\LoanReviewService.cs" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.27" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.27" />

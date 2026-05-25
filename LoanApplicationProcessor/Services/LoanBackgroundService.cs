@@ -1,11 +1,12 @@
-﻿using LoanLogic;
+﻿using LoanApplicationProcessor.Interfaces;
+using LoanLogic.Database;
 using LoanLogic.Interfaces;
 namespace LoanApplicationProcessor.Services
 {
     public class LoanBackgroundService(IServiceScopeFactory scopeFactory, ILogger<LoanBackgroundService> logger) : BackgroundService
     {
         private readonly ILogger<LoanBackgroundService> _logger = logger;
-        private readonly TimeSpan _interval = TimeSpan.FromSeconds(25);
+        private readonly TimeSpan _interval = TimeSpan.FromSeconds(60);
         private readonly IServiceScopeFactory _scopeFactory = scopeFactory;
 
         /// <summary>

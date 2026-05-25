@@ -1,4 +1,5 @@
-﻿using LoanLogic.Enums;
+﻿using LoanLogic.Database;
+using LoanLogic.Enums;
 using LoanLogic.Interfaces;
 using LoanLogic.Models;
 namespace LoanLogic.Repositories

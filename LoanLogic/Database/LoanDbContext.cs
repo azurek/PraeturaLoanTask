@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace LoanLogic
+namespace LoanLogic.Database
 {
     public class LoanDbContext  : DbContext    
     {
