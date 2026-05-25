@@ -1,4 +1,4 @@
-# `PraeturaLoanTask API`
+<img width="1236" height="557" alt="image" src="https://github.com/user-attachments/assets/ccef68f1-727b-4a93-9441-c2ff146755a6" /># `PraeturaLoanTask API`
 
 ## Purpose
 `LoanApplicationsController` exposes HTTP API to save or query loan applications:
@@ -30,7 +30,7 @@ It relies on `ILoanApplicationService` to perform validation, saving and retriev
     "termMonths": 4
 }
 ```
-!["POST of loan application"](/img/001_POST_loanApplication.png) 
+<img width="1219" height="547" alt="image" src="https://github.com/user-attachments/assets/86c2705a-51eb-48df-a9b7-b3d7ba911fa5" />
 
 
 - If request does not pass validation it is going to be rejected and `400` is going to be returned
@@ -55,8 +55,8 @@ Returns
     ]
 }
 ```
+<img width="1234" height="611" alt="image" src="https://github.com/user-attachments/assets/9e25f2f5-e6da-4d58-b743-e143516d955d" />
 
-!["POST with incorrect request](/img/004_POST_incorrect_request.png)
 
 
 Notes:
@@ -64,13 +64,15 @@ Notes:
 - Srvice methods accept a `CancellationToken` which is checked at the end validation in `LoanApplicationService.Validate` as well as just before saving in `LoanApplicationService.SaveNewApplication`
 - Errors are handled by `ResultWithMessage` class and railway apprach. If errors occur, appropriate message is added to Messages collection. Calling method then checks if result is Valid (`true` is there are no messages) and either exists or proceeds.
 
-## `GET` behavior (`Get` method)
+## `GET` method
 - Calls `loanValidationService.GetById(id)`.
   - If not found returns `404 Not Found`.
-!["Requesting record that doesn't exist](/Img/003_GET_nonexistent_record.png)
+<img width="1212" height="621" alt="image" src="https://github.com/user-attachments/assets/5f7b6a12-a46d-4cd4-a3b1-02893a9e40f5" />
+
 
   - Otherwise returns `200 OK` with the result.
-!["Requesting existing record"](/Img//002_GET_loanApplication.png)
+  <img width="1236" height="557" alt="image" src="https://github.com/user-attachments/assets/00b2a5ac-33ff-4acc-8fa7-2ec13637e59a" />
+
 
 
 # `LoanApplicationProcessor`
@@ -82,18 +84,21 @@ Evaluation, saving decinsion log entries and loan application is done in a trans
 
 Once loan application is processed, user will see status updated to either:
 
-- Approved or
-![Approved loan application](/Img/006_GET_approved.png)
+- Approved
+<img width="1242" height="576" alt="image" src="https://github.com/user-attachments/assets/691c5187-d713-4c4a-a885-08feae7a1d74" />
+
 
 - Rejected
-![Rejected loan application](/Img/007_GET_rejected.png)
+<img width="1221" height="579" alt="image" src="https://github.com/user-attachments/assets/298eba46-7514-43d6-93ba-c1288561fe9c" />
+
 
 
 
 ## Debugging 
 For debugging purpose a GET endpoint `decision-log-entries` was created. It will return all decision log entries
 
-![Querying decision log entries](/Img/005_GET_decision_log_entry.png)
+<img width="1227" height="781" alt="image" src="https://github.com/user-attachments/assets/17ba8773-c878-48b3-8924-3e62080fdaa7" />
+
 
 
 
