@@ -1,5 +1,3 @@
-<img width="1236" height="557" alt="image" src="https://github.com/user-attachments/assets/ccef68f1-727b-4a93-9441-c2ff146755a6" /># `PraeturaLoanTask API`
-
 ## Purpose
 `LoanApplicationsController` exposes HTTP API to save or query loan applications:
 - `POST /api/loan-applications` - submit a new loan application
@@ -64,7 +62,7 @@ Notes:
 - Srvice methods accept a `CancellationToken` which is checked at the end validation in `LoanApplicationService.Validate` as well as just before saving in `LoanApplicationService.SaveNewApplication`
 - Errors are handled by `ResultWithMessage` class and railway apprach. If errors occur, appropriate message is added to Messages collection. Calling method then checks if result is Valid (`true` is there are no messages) and either exists or proceeds.
 
-## `GET` method
+## `GET` behavior
 - Calls `loanValidationService.GetById(id)`.
   - If not found returns `404 Not Found`.
 <img width="1212" height="621" alt="image" src="https://github.com/user-attachments/assets/5f7b6a12-a46d-4cd4-a3b1-02893a9e40f5" />
